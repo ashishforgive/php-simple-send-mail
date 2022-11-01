@@ -62,7 +62,10 @@ if (mail($to, $subject, $message, $headers)) {
 	$to, $subject, $message, $headers
 } else {
 	echo(json_encode("sending_failed"));
-	echo $to, $subject, $message, $headers; 
+	echo $to;
+	echo $subject;
+	echo  $message;
+	echo  $headers; 
 }
 
 
