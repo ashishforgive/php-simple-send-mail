@@ -5,7 +5,7 @@
 //Version: 1.2
 
 //Predefined Variables
-$to = "info@magicalindiajourney.com,jkgude@gmail.com,akmashish15@gmail.com";
+$to = "akmashish15@gmail.com";
 $prefixSubject = "New Query from website";
 $prefixMailBody = "Please find the new enquiry
 ";
