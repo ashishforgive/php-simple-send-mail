@@ -1,43 +1,67 @@
 <?php
-// Multiple recipients
-$to = 'akmashish15@gmail.com'; // note the comma
+//(C)opyright 2017 by Ashish Kumar
+//GIT https://github.com/ashishforgive/php-simple-send-mail
 
-// Subject
-$subject = 'Birthday Reminders for August';
+//Version: 1.2
 
-// Message
-$message = '
-<html>
-<head>
-  <title>Birthday Reminders for August</title>
-</head>
-<body>
-  <p>Here are the birthdays upcoming in August!</p>
-  <table>
-    <tr>
-      <th>Person</th><th>Day</th><th>Month</th><th>Year</th>
-    </tr>
-    <tr>
-      <td>Johny</td><td>10th</td><td>August</td><td>1970</td>
-    </tr>
-    <tr>
-      <td>Sally</td><td>17th</td><td>August</td><td>1973</td>
-    </tr>
-  </table>
-</body>
-</html>
-';
+//Predefined Variables
+$to = "info@magicalindiajourney.com,jkgude@gmail.com,akmashish15@gmail.com";
+$prefixSubject = "New Query from website";
+$prefixMailBody = "Please find the new enquiry
+";
 
-// To send HTML mail, the Content-type header must be set
-$headers[] = 'MIME-Version: 1.0';
-$headers[] = 'Content-type: text/html; charset=iso-8859-1';
 
-// Additional headers
-$headers[] = 'To: Mary <akmashish15@gmail.com>, Kelly <kelly@example.com>';
-$headers[] = 'From: Birthday Reminder <birthday@example.com>';
-// $headers[] = 'Cc: birthdayarchive@example.com';
-// $headers[] = 'Bcc: birthdaycheck@example.com';
+// Empty variables, will be filled by script
+$from = ""; 
+$subject = ""; 
+$message = ""; 
 
-// Mail it
-mail($to, $subject, $message, implode("\r\n", $headers));
-?>
+/*
+	Check Variables, Would Prefer POST-Method, because it is more secure if you communicate with HTTPS
+	You can call the Script by POST and GET Method by default.
+*/
+if(isset($_POST["from"]) && isset($_POST["subject"]) && isset($_POST["message"])) {
+	//Set Variables
+	$from = urldecode($_POST["from"]);
+	$subject = urldecode($_POST["subject"]);
+	$message = urldecode($_POST["message"]);
+
+} else if(isset($_GET["from"]) && isset($_GET["subject"]) && isset($_GET["message"])) {
+	//Set Variables
+	$from = urldecode($_GET["from"]);
+	$subject = urldecode($_GET["subject"]);
+	$message = urldecode($_GET["message"]);
+} else if(isset($_REQUEST["from"]) && isset($_REQUEST["subject"]) && isset($_REQUEST["message"])) {
+	$from = urldecode($_REQUEST["from"]);
+	$subject = urldecode($_REQUEST["subject"]);
+	$message = urldecode($_REQUEST["message"]);	
+} else {
+	$requestbody = file_get_contents("php://input");
+	
+	//die(json_encode($requestbody));
+	$decodedbody = array();
+	$decodedbody = json_decode($requestbody,true);
+	
+	if(isset($decodedbody["from"]) && isset($decodedbody["subject"]) && isset($decodedbody["message"])) {
+		$from = $decodedbody["from"];
+		$subject = $decodedbody["subject"];
+		$message = $decodedbody["message"];
+	} else {
+		die(json_encode("wrong_params"));
+	}
+}
+
+$subject = $prefixSubject.$subject;
+$message = $prefixMailBody.$message;
+
+//Execute Mail
+$headers = "From: ".addslashes($from)."\r\n";
+
+if (mail($to, $subject, $message, $headers)) {
+	echo(json_encode("mail_send"));
+} else {
+	echo(json_encode("sending_failed"));
+}
+
+
+ ?>
