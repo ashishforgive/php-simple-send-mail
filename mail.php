@@ -59,8 +59,10 @@ $headers = "From: ".addslashes($from)."\r\n";
 
 if (mail($to, $subject, $message, $headers)) {
 	echo(json_encode("mail_send"));
+	$to, $subject, $message, $headers
 } else {
 	echo(json_encode("sending_failed"));
+	echo $to, $subject, $message, $headers; 
 }
 
 
