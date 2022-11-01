@@ -1,11 +1,11 @@
 <?php
-//(C)opyright 2017 by Ashish Kumar
-//GIT https://github.com/ashishforgive/php-simple-send-mail
+//(C)opyright 2017 by Andris Roling
+//GIT https://github.com/andrisro/REST-PHP-Mailer
 
 //Version: 1.2
 
 //Predefined Variables
-$to = "akmashish15@gmail.com";
+$to = "info@magicalindiajourney.com,akmashish15@gmail.com, jkgude@gmail.com";
 $prefixSubject = "New Query from website";
 $prefixMailBody = "Please find the new enquiry
 ";
